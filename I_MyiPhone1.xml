@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!-- 
+	I_MyiPhone1.xml; Vera/openLuup "MyiPhone" Plug-in 
+	V0.5 Dec 2021
+	NodeCentral
+-->
+<implementation>
+	<functions> 
+		function initialiseMyiPhonePlugin(lul_device)
+			luup.log("MyiPhone: Plugin STARTING-UP!")
+			MyiPhone = require("L_MyiPhone1")
+			NC_MYiPstartUpAppleCheckIn = MyiPhone.startUpAppleCheckIn
+			NC_MYiPrefreshMyiPhoneLocation = MyiPhone.refreshMyiPhoneLocation
+			return MyiPhone.MyiPhoneStartUp(lul_device)
+		end
+	</functions>
+	<startup>initialiseMyiPhonePlugin</startup>
+	<actionList>
+		<action>
+			<serviceId>urn:nodecentral-net:serviceId:MyiPhone1</serviceId>
+			<name>refreshMyiPhoneLocation</name>
+			<job>
+                MyiPhone.log("MyiPhone.refreshMyiPhoneLocation")
+				return MyiPhone.MyiPhone.refreshMyiPhoneLocation(lul_device)
+			</job>
+		</action>
+	</actionList>
+</implementation>
+
+ 

@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<root xmlns="urn:schemas-upnp-org:device-1-0">
+  <specVersion>
+    <major>1</major>
+    <minor>0</minor>
+  </specVersion>
+  <device>
+    <deviceType>urn:nodecentral-net:device:MyiPhone:1</deviceType>
+    <friendlyName>My iPhone</friendlyName>
+    <Category_Num>55</Category_Num>
+    <SubCategory_Num>0</SubCategory_Num>
+    <staticJson>D_MyiPhone1.json</staticJson> 
+    <serviceList>
+      <service>
+            <serviceType>urn:schemas-nodecentral-net:service:MyiPhone:1</serviceType>
+            <serviceId>urn:nodecentral-net:serviceId:MyiPhone1</serviceId>
+            <SCPDURL>S_MyiPhone1.xml</SCPDURL>
+      </service>
+	  <service>
+            <serviceType>urn:schemas-micasaverde-com:service:HaDevice:1</serviceType>
+            <serviceId>urn:micasaverde-com:serviceId:HaDevice1</serviceId>
+            <SCPDURL>S_HaDevice1.xml</SCPDURL>
+	  </service>
+    </serviceList>
+    <implementationList>
+            <implementationFile>I_MyiPhone1.xml</implementationFile>
+    </implementationList>
+  </device>
+</root> 
