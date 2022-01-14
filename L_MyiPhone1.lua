@@ -8,20 +8,12 @@ function log(msg)
 	luup.log("MyiPh: " .. msg)
 end
 
---local function round(n)
---	log("[round] function Called")
-	--return n % 1 >= 0.5 and math.ceil(n) -- round up
---	return n % 1 >= 0.5 and math.floor(n) -- round down
---end
-
-local function round(x, n)
+local function round(x, n) -- x = number, n = characters after decimal point
     n = math.pow(10, n or 0)
     x = x * n
     if x >= 0 then x = math.floor(x + 0.5) else x = math.ceil(x - 0.5) end
     return x / n
 end
-
---print(roundv2(0.0050052897232546, 8))
 
 local function distanceBetween(lat1, lon1, lat2, lon2, distance_unit)
 	log("[distanceBetween] function Called")
@@ -76,7 +68,7 @@ function GoGetMyiPhoneInfo(lul_device)
 	local stage1command = "curl -k -s -X POST -D - -o /dev/null -L -u '" .. username .. ":" .. password .. "' -H 'Content-Type: application/json; charset=utf-8' -H 'X-Apple-Find-Api-Ver: 2.0' -H 'X-Apple-Authscheme: UserIdGuest' -H 'X-Apple-Realm-Support: 1.0' -H 'User-agent: Find iPhone/1.3 MeKit (iPad: iPhone OS/4.2.1)' -H 'X-Client-Name: iPad' -H 'X-Client-UUID: 0cf3dc501ff812adb0b202baed4f37274b210853' -H 'Accept-Language: en-us' -H 'Connection: keep-alive' https://fmipmobile.icloud.com/fmipservice/device/" .. username .."/initClient"
 
 	local stage2server = "fmipmobile.icloud.com"
-	--local stage2server = "iyuyguygububvrrxex.com"
+
 	local stage2command = "curl -k -s -X POST -L -u '" .. username .. ":" .. password .. "' -H 'Content-Type: application/json; charset=utf-8' -H 'X-Apple-Find-Api-Ver: 2.0' -H 'X-Apple-Authscheme: UserIdGuest' -H 'X-Apple-Realm-Support: 1.0' -H 'User-agent: Find iPhone/1.3 MeKit (iPad: iPhone OS/4.2.1)' -H 'X-Client-Name: iPad' -H 'X-Client-UUID: 0cf3dc501ff812adb0b202baed4f37274b210853' -H 'Accept-Language: en-us' -H 'Connection: keep-alive' https://" .. stage2server .. "/fmipservice/device/" .. username .."/initClient"
  
 	local handle = io.popen(stage2command)
@@ -101,7 +93,7 @@ function readMyiPhoneVariables(lul_device)
 	
 	data.MyHomeLongitude = luup.variable_get(COM_SID, "MyHomeLongitude", lul_device)
 	data.MyHomeLatitude = luup.variable_get(COM_SID, "MyHomeLatitude", lul_device)
-	data.MyHomeSkew = luup.variable_get(COM_SID, "MyHomeSkew", lul_device)
+	--data.MyHomeSkew = luup.variable_get(COM_SID, "MyHomeSkew", lul_device)
 	
 	data.iCloudName = luup.variable_get(COM_SID, "iCloudName", lul_device)
 	data.iCloudDisplayName = luup.variable_get(COM_SID, "iCloudDisplayName", lul_device)
@@ -164,7 +156,7 @@ function refreshMyiPhoneLocation(lul_device)
 				local outputserverTimestampA = tonumber(value.location.timeStamp)
 				local outputserverTimestampB = 1641937445742 / 1000 -- remove milliseconds
 				local outputserverTimestampHR = os.date( "%H:%M:%S - %d/%m/%Y" , outputserverTimestampB )
-				--print(outputserverTimestampHR)
+				
 				luup.variable_set(COM_SID, "iCloudlatitude", outputlatitude , lul_device)
 				luup.variable_set(COM_SID, "iCloudlongitude", outputlongitude , lul_device)
 				luup.variable_set(COM_SID, "iCloudlocationTimestamp", outputserverTimestamp , lul_device)
@@ -219,7 +211,7 @@ function checkSetUp(lul_device)
 	if data.MyTargetDeviceName == "Enter Target Device Name Here" then varmissing = varmissing .. "Registered Device, " end
 	if data.MyHomeLongitude == 0 then varmissing = varmissing .. "Home Longitude, " end
 	if data.MyHomeLatitude == 0 then varmissing = varmissing .. "Home Latitude, " end
-	if data.MyHomeSkew == 0 then varmissing = varmissing .. "Home Skew, " end	
+	-- if data.MyHomeSkew == 0 then varmissing = varmissing .. "Home Skew, " end	
 		if varmissing ~= "" then
 			luup.variable_set(COM_SID, "PluginStatus", "ERROR: "..varmissing.." Missing! 2/4", lul_device)
 			luup.variable_set(COM_SID, "Icon", 2, lul_device)
@@ -247,8 +239,8 @@ local function populateFixedVariables(lul_device)
 		if (MyHomeLongitude == nil) then luup.variable_set(COM_SID, "MyHomeLongitude", 0 , lul_device) end
 	local MyHomeLatitude = luup.variable_get(COM_SID, "MyHomeLatitude", lul_device)
 		if (MyHomeLatitude == nil) then luup.variable_set(COM_SID, "MyHomeLatitude", 0 , lul_device) end
-	local MyHomeSkew = luup.variable_get(COM_SID, "MyHomeSkew", lul_device)
-		if (MyHomeSkew == nil) then luup.variable_set(COM_SID, "MyHomeSkew", 0 , lul_device) end
+	--local MyHomeSkew = luup.variable_get(COM_SID, "MyHomeSkew", lul_device)
+		--if (MyHomeSkew == nil) then luup.variable_set(COM_SID, "MyHomeSkew", 0 , lul_device) end
 	
 	-- My Target Apple Device
 	local MyTargetDeviceName = luup.variable_get(COM_SID, "MyTargetDeviceName", lul_device)
