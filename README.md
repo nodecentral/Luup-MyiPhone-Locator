@@ -57,6 +57,8 @@ luup.reload()
 
 While it has been tested, it has not been tested very much and may not support other related devices or those running different firmware.
 
+Currently it's not checking-in to refresh my iPhone's location periodically, so you will have to create a scene for now to accomplish this.
+
 # Buy me a coffee
 
 If you choose to use/customise or just like this plug-in, feel free to say thanks with a coffee or two.. 
